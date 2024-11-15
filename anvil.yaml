@@ -14,7 +14,10 @@ db_schema:
       type: string
     server: full
     title: Table 1
-dependencies: []
+dependencies:
+- dep_id: dep_h8r0z9xluakna
+  resolution_hints: {app_id: NJULWOXXQYDIJUMH, name: Classic 1, package_name: Classic_1}
+  version: {branch: master}
 name: M3 App 1
 package_name: M3_App_1
 renamed: true
@@ -27,5 +30,5 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/tables.yml
-startup: {module: RegistrationForm, type: form}
+startup: {module: RegisterForm, type: form}
 startup_form: null

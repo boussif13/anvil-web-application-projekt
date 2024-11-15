@@ -1,4 +1,4 @@
-from ._anvil_designer import RegistrationFormTemplate
+from ._anvil_designer import RegisterFormTemplate
 from anvil import *
 import anvil.server
 import anvil.tables as tables

@@ -1,5 +1,28 @@
 allow_embedding: false
 db_schema:
+  user_items:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: user
+      type: string
+    - admin_ui: {order: 1, width: 200}
+      name: item_id
+      type: string
+    - admin_ui: {order: 2, width: 200}
+      name: name
+      type: string
+    - admin_ui: {order: 3, width: 200}
+      name: quantity
+      type: number
+    - admin_ui: {order: 4, width: 200}
+      name: date_of_check_in
+      type: datetime
+    - admin_ui: {order: 5, width: 200}
+      name: location
+      type: string
+    server: full
+    title: user_items
   users:
     client: none
     columns:

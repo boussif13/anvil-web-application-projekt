@@ -27,3 +27,7 @@ class LoginForm(LoginFormTemplate):
         # If login is successful, open the dashboard or main page
         if "successful" in result:
             open_form('CheckModul')  
+
+    def form_refreshing_data_bindings(self, **event_args):
+      """This method is called when refresh_data_bindings is called"""
+      pass

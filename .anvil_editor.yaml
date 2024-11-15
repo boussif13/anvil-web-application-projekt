@@ -3,7 +3,9 @@ unique_ids:
     standard-page.html: PCD7CVWBNUNLMZPPSOKVAU7ZVBXMAVRC
     theme.css: XCID2I3MKM6VS2VUFVYZQSR7QX44D4WV
   forms:
-    Form1: 4LA7FSHEUEFEXOPD2UZKOCGUCQXIMBU3
+    LoginForm: '1731683618322755809791694.0099'
+    RegistrationForm: 4LA7FSHEUEFEXOPD2UZKOCGUCQXIMBU3
   modules: {}
   scripts: {}
-  server_modules: {}
+  server_modules:
+    ServerModule1: '173168291547939262075018.05701'

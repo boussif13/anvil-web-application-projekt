@@ -56,26 +56,26 @@ def get_user_items(user_email):
     else:
         raise ValueError("User not found in the database.")
 
-@@anvil.server.callable
+@anvil.server.callable
 def add_item(user_email, item_name, item_description):
     if user_email:
-        # Step 1: Add the new item to the user_item table
+        # Step 1: Create a new row in the user_item table
         item_row = app_tables.user_item.add_row(user_email=user_email, item_name=item_name, item_description=item_description)
-        
+
         # Step 2: Retrieve the user record from the users table
-        user_list = app_tables.users.search(email=user_email)  # Search for the user by email
+        user_list = app_tables.users.search(email=user_email)
 
-        if user_list:  # Check if the user exists (i.e., list is not empty)
-            user = user_list[0]  # Get the first (and ideally only) user in the list
-
-            # Assuming the 'items' column in the users table is a list of item IDs
-            user_items = user.get('items', [])  # Get the existing list of items or initialize an empty list
-            user_items.append(item_row['id'])  # Add the new item's ID to the list
-            user['items'] = user_items  # Update the user's 'items' column with the new list
+        if user_list:
+            user = user_list[0]
+            # Step 3: Add the new item row to the user's List of Rows
+            user.items = user.items + [item_row]  # This appends the new item row to the List of Rows
         else:
             raise Exception(f"User with email {user_email} not found.")
     else:
         raise Exception("User email is required")
+
+
+
 
 
  

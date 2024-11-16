@@ -23,7 +23,7 @@ class LoginForm(LoginFormTemplate):
         if is_valid:
             # Login successful, navigate to CheckModule form
             alert("Login successful!")
-            open_form('CheckModul')
+            open_form('CheckModul',user_email=email)
         else:
             # Login failed, show error message
             alert("Invalid email or password. Please try again.")

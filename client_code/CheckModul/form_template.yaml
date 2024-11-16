@@ -4,9 +4,38 @@ components:
   properties: {}
   type: FlowPanel
 - components:
-  - name: repeating_panel_1
+  - name: item_name
+    properties:
+      align: center
+      spacing:
+        margin: [null, 724, null, null]
+    type: Label
+  - name: item_description
+    properties:
+      align: center
+      spacing:
+        margin: [null, null, null, 750]
+    type: Label
+  - name: repeating_panel_items
     properties: {item_template: CheckModul.RowTemplate1}
     type: RepeatingPanel
+  - event_bindings: {click: add_item_button_click}
+    layout_properties: {}
+    name: add_item_button
+    properties:
+      spacing:
+        margin: [null, 0, null, 913]
+      spacing_above: small
+      spacing_below: large
+      text: Add
+    type: Button
+  - layout_properties: {}
+    name: delet_item
+    properties:
+      spacing:
+        margin: [null, 0, null, 918]
+      text: Delet
+    type: Button
   layout_properties: {slot: default}
   name: data_grid_1
   properties:

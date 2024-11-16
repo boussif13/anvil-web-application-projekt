@@ -9,6 +9,9 @@ db_schema:
     - admin_ui: {width: 200}
       name: item_description
       type: string
+    - admin_ui: {order: 3, width: 200}
+      name: user_email
+      type: string
     server: full
     title: user_item
   users:
@@ -42,5 +45,5 @@ services:
 - client_config: {allow_remember_me: true, allow_signup: false, confirm_email: true, enable_automatically: true, mfa_timeout_days: 0, remember_me_days: 1, require_mfa: false, require_secure_passwords: true, use_email: true}
   server_config: {user_table: users}
   source: /runtime/services/anvil/users.yml
-startup: {module: RegisterForm, type: form}
+startup: {module: LoginForm, type: form}
 startup_form: null

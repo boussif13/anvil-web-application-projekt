@@ -1,0 +1,28 @@
+components:
+- layout_properties: {grid_position: 'VPGMMY,QWIITR'}
+  name: label_1
+  properties: {text: Item Name}
+  type: Label
+- layout_properties: {grid_position: 'OKNGLW,XLHMRL'}
+  name: item_name_textbox
+  properties: {}
+  type: TextBox
+- layout_properties: {grid_position: 'ANHAZQ,ZLHAYP'}
+  name: label_2
+  properties: {text: Item Description}
+  type: Label
+- layout_properties: {grid_position: 'EFJUTC,MESJKO'}
+  name: item_description_textbox
+  properties: {}
+  type: TextBox
+- event_bindings: {click: submit_button_click}
+  layout_properties: {grid_position: 'IUBFRZ,BWDCJE'}
+  name: submit_button
+  properties:
+    spacing:
+      margin: [null, 218, null, 228]
+    spacing_above: large
+    text: Submit
+  type: Button
+container: {type: ColumnPanel}
+is_package: true

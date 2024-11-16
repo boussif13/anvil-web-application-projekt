@@ -1,18 +1,35 @@
 components:
 - components:
+  - layout_properties: {grid_position: 'NGHVCH,BGZMSC'}
+    name: label_2
+    properties: {text: Email}
+    type: Label
   - layout_properties: {grid_position: 'JYAQDK,EQNTFG'}
     name: email_box
     properties: {}
     type: TextBox
+  - layout_properties: {grid_position: 'SIODSI,GPDLTK'}
+    name: label_3
+    properties: {text: Password}
+    type: Label
   - layout_properties: {grid_position: 'KIDJYM,TLUPHC'}
     name: password_box
-    properties: {}
+    properties: {hide_text: true}
     type: TextBox
   - data_bindings: []
     event_bindings: {click: register_button_click}
     layout_properties: {grid_position: 'CCFNTN,QVHUWU'}
     name: register_button
     properties: {enabled: true, text: Register, visible: true}
+    type: Button
+  - layout_properties: {grid_position: 'FNBQKI,POPJHA'}
+    name: label_1
+    properties: {text: 'Already Registred?'}
+    type: Label
+  - event_bindings: {click: login_page_button_click}
+    layout_properties: {grid_position: 'TXOVMG,NMIZTH'}
+    name: login_page_button
+    properties: {text: Go to Login Page}
     type: Button
   layout_properties: {slot: default}
   name: content_panel

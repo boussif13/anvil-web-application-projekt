@@ -57,25 +57,67 @@ def get_user_items(user_email):
         raise ValueError("User not found in the database.")
 
 @anvil.server.callable
-def add_item(user_email, item_name, item_description):
+def add_item(user_email, item_id, item_name, item_description, item_location, item_date_of_check_in):
     if user_email:
-        # Step 1: Create a new row in the user_item table
-        item_row = app_tables.user_item.add_row(user_email=user_email, item_name=item_name, item_description=item_description)
+        # Step 1: Check if the item_id already exists for the user
+        existing_item = app_tables.user_item.get(user_email=user_email, item_id=item_id)
+        if existing_item:
+            # If item with the same ID exists, return a message instead of raising an exception
+            return "Item with ID {} already exists for this user. Please use a different ID.".format(item_id)
 
-        # Step 2: Retrieve the user record from the users table
-        user_list = app_tables.users.search(email=user_email)
+        # Step 2: Add a new item to the user_item table, including the new fields
+        item_row = app_tables.user_item.add_row(
+            user_email=user_email, 
+            item_id=item_id, 
+            item_name=item_name, 
+            item_description=item_description, 
+            item_location=item_location, 
+            item_date_of_check_in=item_date_of_check_in
+        )
 
-        if user_list:
-            user = user_list[0]
-            # Step 3: Add the new item row to the user's List of Rows
-            user.items = user.items + [item_row]  # This appends the new item row to the List of Rows
+        # Step 3: Find the user row in the users table
+        user = app_tables.users.get(email=user_email)
+        if user:
+            # Step 4: Retrieve the current list of items for this user
+            user_items = user['items'] or []
+
+            # Step 5: Append the new item row to the user's list and update the column explicitly
+            user_items.append(item_row)
+            user['items'] = user_items  # Explicitly set the updated list back to the column
+
         else:
-            raise Exception(f"User with email {user_email} not found.")
+            return f"User with email {user_email} not found."
     else:
-        raise Exception("User email is required")
+        return "User email is required."
 
-
-
+@anvil.server.callable
+def delete_item(item_id):
+    try:
+        # Find the item in the user_item table
+        item = app_tables.user_item.get(item_id=item_id)
+        
+        if item:
+            # Find the user who owns the item
+            user_email = item['user_email']
+            user = app_tables.users.get(email=user_email)
+            
+            if user:
+                # Remove the item from the user's items list (if it's there)
+                user_items = user['items'] or []
+                user_items = [i for i in user_items if i['item_id'] != item_id]
+                user['items'] = user_items  # Save the updated list
+                
+                # Now, delete the item from the user_item table
+                item.delete()
+                
+                return True  # Return True to indicate success
+            else:
+                return f"User with email {user_email} not found."
+        else:
+            return "Item not found."
+    
+    except Exception as e:
+        return f"Error deleting item: {str(e)}"
 
 
  

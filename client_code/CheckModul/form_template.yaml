@@ -4,18 +4,6 @@ components:
   properties: {}
   type: FlowPanel
 - components:
-  - name: item_name
-    properties:
-      align: center
-      spacing:
-        margin: [null, 724, null, null]
-    type: Label
-  - name: item_description
-    properties:
-      align: center
-      spacing:
-        margin: [null, null, null, 750]
-    type: Label
   - name: repeating_panel_items
     properties: {item_template: CheckModul.RowTemplate1}
     type: RepeatingPanel
@@ -24,17 +12,18 @@ components:
     name: add_item_button
     properties:
       spacing:
-        margin: [null, 0, null, 913]
+        margin: [null, 0, null, 0]
       spacing_above: small
       spacing_below: large
       text: Add
     type: Button
-  - layout_properties: {}
+  - event_bindings: {click: delete_item_click}
+    layout_properties: {}
     name: delet_item
     properties:
       spacing:
-        margin: [null, 0, null, 918]
-      text: Delet
+        margin: [null, 0, null, 0]
+      text: Delete
     type: Button
   layout_properties: {slot: default}
   name: data_grid_1
@@ -42,6 +31,9 @@ components:
     columns:
     - {data_key: item_name, id: VJQQOR, title: Name}
     - {data_key: item_description, id: OPBACG, title: Description}
+    - {data_key: item-id, expand: false, id: TIEYWL, title: Item ID}
+    - {data_key: item_location, id: HUPWVK, title: Location}
+    - {data_key: item_date_of_check_in, id: KGVKNV, title: Date of Check-in}
   type: DataGrid
 container:
   properties: {html: '@theme:standard-page.html'}

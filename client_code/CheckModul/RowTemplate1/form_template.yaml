@@ -1,3 +1,23 @@
-components: []
+components:
+- layout_properties: {column: VJQQOR}
+  name: item_name
+  properties: {}
+  type: Label
+- layout_properties: {column: OPBACG}
+  name: item_description
+  properties: {}
+  type: Label
+- layout_properties: {column: TIEYWL}
+  name: item_id
+  properties: {}
+  type: Label
+- layout_properties: {column: HUPWVK}
+  name: item_location
+  properties: {}
+  type: Label
+- layout_properties: {column: KGVKNV}
+  name: item_date_of_check_in
+  properties: {}
+  type: Label
 container: {type: DataRowPanel}
 is_package: true

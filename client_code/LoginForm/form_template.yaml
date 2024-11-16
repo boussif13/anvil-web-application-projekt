@@ -1,12 +1,20 @@
 components:
 - components:
+  - layout_properties: {grid_position: 'BDIQKD,YSJJTG'}
+    name: label_1
+    properties: {text: Email}
+    type: Label
   - layout_properties: {grid_position: 'NXMWQR,TUSAXB'}
     name: email_box
     properties: {}
     type: TextBox
+  - layout_properties: {grid_position: 'VVWMFQ,ZSDZMX'}
+    name: label_2
+    properties: {text: Password}
+    type: Label
   - layout_properties: {grid_position: 'WITAUZ,WTHSLM'}
     name: password_box
-    properties: {}
+    properties: {hide_text: true}
     type: TextBox
   - data_bindings: []
     event_bindings: {click: login_button_click}

@@ -11,10 +11,8 @@ components:
   name: data_grid_1
   properties:
     columns:
-    - {data_key: name, id: VJQQOR, title: Name}
-    - {data_key: quantity, id: OJLQEN, title: Quantity}
-    - {data_key: date_of_check_in, id: EQFFWO, title: Date of Check-in}
-    - {data_key: location, id: OPBACG, title: Location}
+    - {data_key: item_name, id: VJQQOR, title: Name}
+    - {data_key: item_description, id: OPBACG, title: Description}
   type: DataGrid
 container:
   properties: {html: '@theme:standard-page.html'}

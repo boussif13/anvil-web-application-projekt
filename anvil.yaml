@@ -1,60 +1,31 @@
 allow_embedding: false
 db_schema:
-  user_items:
+  user_item:
     client: none
     columns:
-    - admin_ui: {order: 0, width: 200}
-      name: user
+    - admin_ui: {width: 200}
+      name: item_name
       type: string
-    - admin_ui: {order: 1, width: 200}
-      name: item_id
-      type: string
-    - admin_ui: {order: 2, width: 200}
-      name: name
-      type: string
-    - admin_ui: {order: 3, width: 200}
-      name: quantity
-      type: number
-    - admin_ui: {order: 4, width: 200}
-      name: date_of_check_in
-      type: datetime
-    - admin_ui: {order: 5, width: 200}
-      name: location
+    - admin_ui: {width: 200}
+      name: item_description
       type: string
     server: full
-    title: user_items
+    title: user_item
   users:
     client: none
     columns:
     - admin_ui: {width: 200}
-      name: username
-      type: string
-    - admin_ui: {width: 200}
       name: email
       type: string
     - admin_ui: {width: 200}
-      name: password_hash
+      name: password
       type: string
-    - admin_ui: {order: 3, width: 200}
-      name: enabled
-      type: bool
     - admin_ui: {order: 4, width: 200}
-      name: last_login
-      type: datetime
-    - admin_ui: {order: 5, width: 200}
-      name: n_password_failures
-      type: number
-    - admin_ui: {order: 6, width: 200}
-      name: confirmed_email
-      type: bool
-    - admin_ui: {order: 7, width: 200}
-      name: remembered_logins
-      type: simpleObject
-    - admin_ui: {order: 8, width: 200}
-      name: mfa
-      type: simpleObject
+      name: items
+      target: user_item
+      type: link_multiple
     server: full
-    title: users
+    title: Users
 dependencies: []
 name: M3 App 1
 package_name: M3_App_1

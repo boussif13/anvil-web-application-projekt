@@ -1,25 +1,29 @@
 from ._anvil_designer import LoginFormTemplate
-import anvil.users
 from anvil import *
+import anvil.server
+from anvil.tables import app_tables
 
 class LoginForm(LoginFormTemplate):
-    def __init__(self, **properties):
-        self.init_components(**properties)
 
     def login_button_click(self, **event_args):
-        email = self.email_box.text.strip()  # Ensure no leading/trailing spaces
+        # Get user input
+        email = self.email_box.text.strip()  # Ensure you trim whitespace
         password = self.password_box.text.strip()
 
         if not email or not password:
             alert("Please enter both email and password!")
             return
 
-        try:
-            # Attempt to log the user in
-            user = anvil.users.login(email=email, password=password)
-            
-            # If login is successful, show a success alert and move to the next form
+        # Ensure password is a string before sending it to the server
+        password = str(password)  # Convert to string just in case
+
+        # Call the server function to check the user's credentials
+        is_valid = anvil.server.call('check_user_login', email, password)
+
+        if is_valid:
+            # Login successful, navigate to CheckModule form
             alert("Login successful!")
-            open_form('CheckModul')  # Redirect to CheckModul after successful login
-        except anvil.users.AuthenticationFailed:
+            open_form('CheckModul')
+        else:
+            # Login failed, show error message
             alert("Invalid email or password. Please try again.")

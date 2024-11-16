@@ -1,47 +1,25 @@
 from ._anvil_designer import CheckModulTemplate
-import anvil.server
-import anvil.users
 from anvil import *
+import anvil.server
+from anvil.tables import app_tables
+
 
 class CheckModul(CheckModulTemplate):
     def __init__(self, **properties):
         self.init_components(**properties)
-        self.show_user_items()
 
-    def show_user_items(self):
-        user = anvil.users.get_user()  # Get the current logged-in user
-        if user is None:
-            alert("You need to log in to see your items!")
-            open_form('LoginForm')  # Redirect to login if not logged in
-            return
-        
-        user_email = user['email']  # Get email of the logged-in user
-        items = anvil.server.call('get_user_items', user_email)
+        # Retrieve the user email from the session
+        user_email = anvil.server.session.get('user_email')
 
-        if items is None or len(items) == 0:
-            alert("No items found!")
+        if user_email:
+            # Fetch user items after navigation
+            items = anvil.server.call('get_user_items')
+
+            if items:
+                # Loop through the items and display them
+                item_names = [f"{item['item_name']}: {item['item_description']}" for item in items]
+                alert(f"Your items:\n{', '.join(item_names)}")
+            else:
+                alert("You have no items yet.")
         else:
-            # Bind the fetched items to the repeating panel
-            self.repeating_panel_1.items = items
-
-    def add_item_button_click(self, **event_args):
-        user = anvil.users.get_user()
-
-        if user is None:
-            alert("You need to log in to add items!")
-            open_form('LoginForm')
-            return
-        
-        name = self.name_box.text
-        quantity = self.quantity_box.text
-        location = self.location_box.text
-
-        if not name or not quantity or not location:
-            alert("All fields are required!")
-            return
-
-        result = anvil.server.call('add_item', user['email'], name, int(quantity), location)
-        alert(result)
-
-        # Refresh the item list
-        self.show_user_items()
+            open_form('LoginForm')  # If no user is logged in, open the login form

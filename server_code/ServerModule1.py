@@ -1,72 +1,57 @@
 import anvil.server
-import anvil.tables as tables
+import bcrypt
+import anvil.users
 from anvil.tables import app_tables
-import hashlib
-import datetime
+from anvil.server import session 
 
-# Hash the password before storing it
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
-
-# Register a new user
 @anvil.server.callable
-def register_user(username, email, password):
-    # Check if the user already exists by email
+def register_user(email, password):
+    # Check if the email already exists
     if app_tables.users.get(email=email):
-        return "User already exists!"
+        raise ValueError("Email already exists. Please use a different email.")
     
-    # Hash the password before storing it
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
-
-# Register a new user
+    # Hash the password using bcrypt
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    
+    # Convert the hashed password to a string (encode to base64 to store safely in a text field)
+    hashed_password_str = hashed_password.decode('utf-8')  # Convert bytes to string
+    
+    # Store the new user in the database (with empty items list initially)
+    app_tables.users.add_row(email=email, password=hashed_password_str, items=[])
+    
+    return "User registered successfully"
+  
 @anvil.server.callable
-def register_user(username, email, password):
-    if app_tables.users.get(email=email):
-        return "User already exists!"
+def check_user_login(email, password):
+    # Ensure that password is treated as a string
+    if isinstance(password, bytes):
+        password = password.decode('utf-8')
     
-    password_hash = hash_password(password)
-    
-    # Create the user, do not set confirmed_email here unless it's required
-    app_tables.users.add_row(username=username, email=email, password_hash=password_hash, enabled=False)
-    
-    return "User registered successfully!"
-
-# Login a user
-@anvil.server.callable
-def login_user(email, password):
+    # Retrieve the user from the database
     user = app_tables.users.get(email=email)
+    
     if user:
-        # Compare the hashed password
-        if user['password_hash'] == hash_password(password):
-            return user  # Successful login, return the user object
-    return None  # Login failed
+        # Compare the entered password with the stored hash
+        stored_hash = user['password']
+        if bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8')):
+            return True
+    
+    # If the user doesn't exist or passwords don't match
+    return False
 
-# Get items for the logged-in user
+# Store the user email in the session on the server-side
+@anvil.server.callable
+def store_user_email_in_session(email):
+    session["user_email"] = email  # Store the email in the session
+
+# Fetch the user's items from the database
 @anvil.server.callable
 def get_user_items(user_email):
-    user = app_tables.users.get(email=user_email)
-    
-    if user:
-        # Retrieve items that belong to the logged-in user
-        items = app_tables.items.search(user=user)
-        return items
-    else:
-        return []
+    # Retrieve the user row from the database using the email
+    user_row = app_tables.users.get(email=user_email)
 
-# Add an item to the user's inventory
-@anvil.server.callable
-def add_item(user_email, name, quantity, location):
-    user = app_tables.users.get(email=user_email)
-    
-    if user:
-        app_tables.items.add_row(
-            user=user,  # Link the item to the user
-            name=name,
-            quantity=quantity,
-            location=location,
-            date_of_check_in=datetime.datetime.utcnow()  # Add current time for check-in
-        )
-        return "Item added successfully!"
+    if user_row:
+        # Return the list of items (user_item rows) for the logged-in user
+        return user_row['items']
     else:
-        return "User not found!"
+        raise ValueError("User not found in the database.")

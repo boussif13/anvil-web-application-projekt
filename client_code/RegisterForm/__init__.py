@@ -1,23 +1,23 @@
 from ._anvil_designer import RegisterFormTemplate
-import anvil.server
 from anvil import *
+import anvil.server  
 
 class RegisterForm(RegisterFormTemplate):
     def __init__(self, **properties):
         self.init_components(**properties)
 
     def register_button_click(self, **event_args):
-        username = self.username_box.text
-        email = self.email_box.text
-        password = self.password_box.text
+        email = self.email_box.text.strip()  # Get email
+        password = self.password_box.text.strip()  # Get password
 
-        if not username or not email or not password:
-            alert("Please fill out all fields!")
+        if not email or not password:
+            alert("Please enter both email and password!")
             return
 
-        # Call the server function to register the user
-        result = anvil.server.call('register_user', username, email, password)
-        alert(result)
-
-        if "successfully" in result:
-            open_form('LoginForm')  # Go to LoginForm after successful registration
+        try:
+            # Call the server function to register the new user
+            result = anvil.server.call('register_user', email, password)
+            alert(result)
+            open_form('LoginForm')  # Open login page after successful registration
+        except Exception as e:
+            alert(f"Error: {str(e)}")

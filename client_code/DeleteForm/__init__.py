@@ -25,6 +25,7 @@ class DeleteForm(DeleteFormTemplate):
 
             if result is True:
                 alert("Item deleted successfully!")
+                open_form('CheckModul', user_email=self.user_email)
             else:
                 alert(result)  # Display the error message from the server function
 

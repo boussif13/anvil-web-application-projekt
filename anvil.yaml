@@ -39,8 +39,9 @@ db_schema:
     server: full
     title: Users
 dependencies: []
-name: M3 App 1
-package_name: M3_App_1
+metadata: {logo_img: 'asset:warehouse.png'}
+name: Anvil Web Application Projekt
+package_name: Anvil_Web_Application_Projekt
 renamed: true
 runtime_options:
   client_version: '3'
